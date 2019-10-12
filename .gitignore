@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+first-api-django/onlinestore/onlinestore/__pycache__
+first-api-django/onlinestore/products/__pycache__/
+first-api-django/onlinestore/products/migrations/__pycache__/
