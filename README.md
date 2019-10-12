@@ -1,1 +1,1 @@
-DFR, CBV + Vue JS Retool
+# Django REST Framework, Class-based Views + Vue JS Retool
