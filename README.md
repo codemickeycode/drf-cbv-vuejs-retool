@@ -1,0 +1,1 @@
+# drf-cbv-vuejs-retool
