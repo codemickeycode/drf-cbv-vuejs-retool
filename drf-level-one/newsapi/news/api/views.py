@@ -1,0 +1,27 @@
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from news.models import Article
+from news.api.serializers import ArticleSerializer
+
+
+
+@api_view(["GET", "POST"])
+def article_list_create_api_view(request):
+    if request.method == "GET":
+        articles = Article.objects.filter(active=True)
+        # many=True so that our serializer will know that it has to serve a whole queryset
+        serializer = ArticleSerializer(articles, many=True)
+        # here we're not using the JSONResponse we've previously use in our previous api
+        # Django REST Framework is going to decide which kind of response is most appropriate
+        # based on the context of the request itself
+        return Response(serializer.data)
+
+    elif request.method == "POST":
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
