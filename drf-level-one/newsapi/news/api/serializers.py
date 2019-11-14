@@ -16,6 +16,7 @@ class ArticleSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         print(validated_data)
+        print(type(validated_data))
         return Article.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -29,3 +30,21 @@ class ArticleSerializer(serializers.Serializer):
         instance.active = validated_data.get('active', instance.active)
         instance.save()
         return instance
+
+    def validate(self, data):
+        """
+        Object-Level Validation Example
+        check that description and title are different
+        """
+        if data["title"] == data["description"]:
+            raise serializers.ValidationError("Title and Description must be different from one another")
+        return data
+
+    def validate_title(self, value):
+        """
+        Field-Level Validation Example
+        check that description and title are different
+        """
+        if len(value) < 60:
+            raise serializers.ValidationError("The title has to be at least 60 chars long!")
+        return value
